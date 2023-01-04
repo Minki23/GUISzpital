@@ -6,6 +6,7 @@ import GUI.Skladowe.Powierzchnia;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class PanelChorobyILeki extends PanelOgolny {
@@ -24,6 +25,16 @@ public class PanelChorobyILeki extends PanelOgolny {
     }
     private static boolean HistoriaOtwarta=false;
     private static boolean LekiOtwarte=false;
+    private static final OknoHistoriaChorob Historia=new OknoHistoriaChorob();
+    private static final OknoPrzypisaneLeki Leki=new OknoPrzypisaneLeki();
+
+    public static OknoHistoriaChorob getHistoria() {
+        return Historia;
+    }
+
+    public static OknoPrzypisaneLeki getLeki() {
+        return Leki;
+    }
 
     public static void setHistoriaOtwarta(boolean historiaOtwarta) {
         HistoriaOtwarta = historiaOtwarta;
@@ -34,9 +45,6 @@ public class PanelChorobyILeki extends PanelOgolny {
     }
 
     public PanelChorobyILeki() throws IOException {
-        OknoHistoriaChorob Historia=new OknoHistoriaChorob();
-        OknoPrzypisaneLeki Leki=new OknoPrzypisaneLeki();
-        JButton ButtonWyloguj=new JButton("Wyloguj");
         JButton ButtonHistoriaChorob = new JButton("Historia Chorob");
         JButton ButtonPrzypisaneLeki = new JButton("Przypisane Leki");
         ButtonHistoriaChorob.addActionListener(a->{
@@ -60,6 +68,11 @@ public class PanelChorobyILeki extends PanelOgolny {
         add(ButtonHistoriaChorob,getC(5,7,0,0,0,0));
         add(ButtonPrzypisaneLeki,getC(10,7,0,0,0,0));
         add(ButtonWyloguj,getC(14,1,0,0,0,0));
-        ButtonWyloguj.addActionListener(e -> Powierzchnia.getRamka().set(PanelMenu.getMenu()));
+        ButtonWyloguj.addActionListener(e -> {
+            Historia.dispatchEvent(new WindowEvent(Historia, WindowEvent.WINDOW_CLOSING));
+            Leki.dispatchEvent(new WindowEvent(Leki, WindowEvent.WINDOW_CLOSING));
+            Powierzchnia.getRamka().set(PanelMenu.getMenu());
+            PanelPacjent.getTabbedPanelPacjent().setSelectedIndex(0);
+        });
     }
 }

@@ -1,14 +1,16 @@
 package GUI.Skladowe;
 
 import GUI.Menu.PanelMenu;
+import GUI.PanelPacjenta.PanelChorobyILeki;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class PanelOgolny extends JPanel {
+public abstract class PanelOgolny extends JPanel {
     private final GridBagConstraints C = new GridBagConstraints();
 
     private static final JButton ButtonCofnij = new JButton("<-");
@@ -16,9 +18,19 @@ public class PanelOgolny extends JPanel {
     public static JButton getButtonCofnij() {
         return ButtonCofnij;
     }
+    protected static JButton ButtonWyloguj=new JButton("Wyloguj");
+
+    public static JButton getButtonWyloguj() {
+        return ButtonWyloguj;
+    }
 
     private final Image scaled;
     public PanelOgolny() throws IOException {
+        ButtonWyloguj.addActionListener(e ->{
+            PanelChorobyILeki.getHistoria().dispatchEvent(new WindowEvent(PanelChorobyILeki.getHistoria(), WindowEvent.WINDOW_CLOSING));
+            PanelChorobyILeki.getLeki().dispatchEvent(new WindowEvent(PanelChorobyILeki.getLeki(), WindowEvent.WINDOW_CLOSING));
+            Powierzchnia.getRamka().set(PanelMenu.getMenu());
+        });
         ButtonCofnij.addActionListener(e -> {
             Powierzchnia.getRamka().set(PanelMenu.getMenu());
         });
@@ -37,7 +49,7 @@ public class PanelOgolny extends JPanel {
         g.drawImage(scaled, 0, 0, (int) d.getWidth(), (int) d.getHeight(), this);
     }
 
-    protected GridBagConstraints getC(int gridx, int gridy, double weightx, double weighty,int ipadx,int ipady) {
+    protected GridBagConstraints getC(int gridx, int gridy, double weightx, double weighty, int ipadx, int ipady) {
         C.gridx = gridx;
         C.gridy = gridy;
         C.weightx = weightx;

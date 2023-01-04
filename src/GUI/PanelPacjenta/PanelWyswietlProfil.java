@@ -6,13 +6,14 @@ import GUI.Skladowe.Powierzchnia;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class PanelWyswietlProfil extends PanelOgolny {
 
     private static final PanelWyswietlProfil PanelWyswietlProfil;
 
-    public static GUI.PanelPacjenta.PanelWyswietlProfil getPanelWyswietlProfil() {
+    public static PanelWyswietlProfil getPanelWyswietlProfil() {
         return PanelWyswietlProfil;
     }
 
@@ -124,7 +125,10 @@ public class PanelWyswietlProfil extends PanelOgolny {
             ButtonZatwierdz.setVisible(false);
         });
         ButtonWyloguj.addActionListener(e ->{
+            PanelChorobyILeki.getHistoria().dispatchEvent(new WindowEvent(PanelChorobyILeki.getHistoria(), WindowEvent.WINDOW_CLOSING));
+            PanelChorobyILeki.getLeki().dispatchEvent(new WindowEvent(PanelChorobyILeki.getLeki(), WindowEvent.WINDOW_CLOSING));
             Powierzchnia.getRamka().set(PanelMenu.getMenu());
+            PanelPacjent.getTabbedPanelPacjent().setSelectedIndex(0);
         });
         add(LabelWyswietlProfil,getC(7,2,0,0,0,0));
         add(LabelPesel,getC(5,4,0,0,0,0));
